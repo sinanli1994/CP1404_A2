@@ -7,7 +7,7 @@ BoxLayout:
             size_hint_x: 0.5
             Button:
                 text: 'List Required'
-                on_press: app.required()
+                on_press: app.required_mark()
             Button:
                 text: 'List Completed'
                 on_press: app.completed()
@@ -34,13 +34,15 @@ BoxLayout:
             Button:
                 text: 'Clear'
                 on_press: app.handle_clear()
+            Button:
+                text: 'Save Item'
+                on_press:app.save_item()
         BoxLayout:
             orientation: 'vertical'
             Label:
                 id: top_label
                 size_hint_y: 0.1
             GridLayout:
-                # this layout is populated with (button) widgets in app code
                 id: entriesBox
                 cols: 1
                 orientation: 'vertical'
