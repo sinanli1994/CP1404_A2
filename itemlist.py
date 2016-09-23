@@ -14,7 +14,7 @@ class Itemlist(App):
 
         self.title = "Shopping List 2.0"  # Main widget title
         self.root = Builder.load_file("list.kv")  # Load the kivy file
-        self.required_mark()
+        self.required_mark()  # Set the default state for items list (Required list)
         return self.root
 
     def required_mark(self):  # Function for required list and mark items to the completed (required button)
