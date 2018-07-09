@@ -1,6 +1,7 @@
 from kivy.app import App  # Import relevant kivy function
 from kivy.lang import Builder
 from kivy.uix.button import Button
+from item import Item
 import operator  # import the operator
 import csv  # import the csv file
 
@@ -29,7 +30,7 @@ class Itemlist(App):
 
         for item in required_list:  # using for loop to separate to sorted file
             if "r" in item[3]:  # When "r" in item 3, then count, calculate and add the button of required items
-                temp_button = Button(text=item[0], background_color=[count-0.5, 0, 1, 1])  # Setting the button text and background color
+                temp_button = Button(text=item[0], background_color=[count - 0.5, 0, 1, 1])  # Setting the button text and background color
                 temp_button.item = item
                 temp_button.bind(on_release=self.handle_mark)  # Setting when user click the button
                 self.root.ids.entriesBox.add_widget(temp_button)  # Add widgets for each required item
@@ -45,7 +46,8 @@ class Itemlist(App):
     def handle_mark(self, instance):  # Function when user click the button of the required item (Each required button)
         name = instance.text
         instance.item[3] = "c"  # Using "c" instead of "r" in the list when user chooses the item
-        self.root.ids.status_label.text = ("{} marked as completed".format(name))  # Show the marked item at the status label
+        self.root.ids.status_label.text = (
+            "{} marked as completed".format(name))  # Show the marked item at the status label
 
     def completed(self):  # Function for the completed item (Completed button)
         count = 0
@@ -93,11 +95,10 @@ class Itemlist(App):
                 elif priority != 1 and priority != 2 and priority != 3:
                     self.root.ids.status_label.text = "Priority must be 1, 2 or 3"
                 else:
-                    new_item = [item_name, str(price), str(priority), "r"]  # Make the new item to the list
-                    self.list.append(new_item)  # Appending the new list to the required list
-                    self.root.ids.status_label.text = "{}, ${} (priority {}) added to shopping list".format(item_name,
-                                                                                                            price,
-                                                                                                            priority)
+                    new_item = [item_name, str(price), str(priority), "r"]  # Create a list with new item
+                    self.list.append(new_item)  # Appending the new list to the item list
+                    add_item = Item(item_name, price, priority)
+                    self.root.ids.status_label.text = str(add_item)
                     # show the added item at the status label
                     self.root.ids.input_name.text = ""
                     self.root.ids.input_price.text = ""
@@ -114,7 +115,7 @@ class Itemlist(App):
         file_writer = open("list.csv", "a")  # Open the file with the correct format
         count = 0
 
-        for item in self.list:  # Find the completed items and write to the file and delete the required items
+        for item in self.list:  # Find the completed items and save to the csv file
             if "c" in item[3]:
                 count += 1
                 if count == 1:
@@ -133,5 +134,6 @@ class Itemlist(App):
         # Display how many items which add to the file at the status label
         file_writer.close()
         # Close the file
+
 
 Itemlist().run()
